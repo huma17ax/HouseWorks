@@ -86,8 +86,7 @@ function onEndDrag(date_to: Date, action: any) {
         </template>
       </draggable>
     </div>
-    <EditTask class="fixed top-[40vh] max-w-xl" v-if="openEditWindow" :init="task4edit" @close="closeMenu"
-      @update="updateTask"></EditTask>
+    <EditTask v-if="openEditWindow" :init="task4edit" @close="closeMenu" @update="updateTask"></EditTask>
   </div>
 </template>
 
