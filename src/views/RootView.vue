@@ -52,6 +52,10 @@ function updateTask(task: Task) {
   taskManager.saveTask(task)
 }
 
+function deleteTask() {
+  taskManager.deleteTask(task4edit.value)
+}
+
 function onEndDrag(date_to: Date, action: any) {
   if ("removed" in action) {
     // Nothing
@@ -86,7 +90,8 @@ function onEndDrag(date_to: Date, action: any) {
         </template>
       </draggable>
     </div>
-    <EditTask v-if="openEditWindow" :init="task4edit" @close="closeMenu" @update="updateTask"></EditTask>
+    <EditTask v-if="openEditWindow" :init="task4edit" @close="closeMenu" @update="updateTask" @delete="deleteTask">
+    </EditTask>
   </div>
 </template>
 

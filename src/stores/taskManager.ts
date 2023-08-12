@@ -4,7 +4,15 @@ import { defineStore } from 'pinia'
 
 import type { Task } from '../types'
 
-import { getFirestore, collection, doc, setDoc, addDoc, getDocs } from 'firebase/firestore/lite'
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  addDoc,
+  getDocs,
+  deleteDoc
+} from 'firebase/firestore/lite'
 
 export const useTaskManager = defineStore('taskManager', () => {
   const tasks: Ref<Task[]> = ref([])
@@ -45,5 +53,14 @@ export const useTaskManager = defineStore('taskManager', () => {
     }
   }
 
-  return { tasks, saveTask }
+  function deleteTask(task: Task) {
+    if (task.id) {
+      deleteDoc(doc(database, 'tasks', task.id)).then(() => {
+        const idx = tasks.value.findIndex((elem) => elem.id == task.id)
+        delete tasks.value[idx]
+      })
+    }
+  }
+
+  return { tasks, saveTask, deleteTask }
 })
