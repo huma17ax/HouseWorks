@@ -49,7 +49,7 @@ function closeMenu() {
 }
 
 function updateTask(task: Task) {
-  console.log(task)
+  taskManager.saveTask(task)
 }
 
 function onEndDrag(date_to: Date, action: any) {

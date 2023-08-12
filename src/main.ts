@@ -7,6 +7,8 @@ import router from './router'
 import { createPinia } from 'pinia'
 import vSelect from 'vue-select'
 
+import '@/firebase'
+
 const app = createApp(App)
 
 app.use(router)
