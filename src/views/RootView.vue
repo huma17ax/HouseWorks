@@ -12,7 +12,7 @@ import type { Task } from '@/types'
 
 const days: Ref<Date[]> = ref([])
 const openEditWindow: Ref<boolean> = ref(false)
-const task4edit: Ref<Task> = ref({ title: "", date: new Date(), type: "", id: undefined })
+const task4edit: Ref<Task> = ref({ title: "", date: new Date(), type: "", memo: "", id: undefined })
 
 const taskManager = useTaskManager()
 
@@ -40,6 +40,7 @@ function openNewMenu(date: Date) {
     title: "",
     date: date,
     type: "TASK",
+    memo: "",
     id: undefined
   }
   openEditWindow.value = true

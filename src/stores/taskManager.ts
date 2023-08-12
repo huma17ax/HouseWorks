@@ -24,6 +24,7 @@ export const useTaskManager = defineStore('taskManager', () => {
         title: doc.data().title,
         date: new Date(doc.data().date),
         type: doc.data().type,
+        memo: doc.data().memo,
         id: doc.id
       })
     })

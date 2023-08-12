@@ -13,7 +13,7 @@ const emit = defineEmits<{
   delete: []
 }>()
 
-const editingTask: Ref<Task> = ref({ title: "", date: new Date(), type: "", id: undefined })
+const editingTask: Ref<Task> = ref({ title: "", date: new Date(), type: "", memo: "", id: undefined })
 
 onMounted(() => {
   editingTask.value = props.init
@@ -41,6 +41,7 @@ function confirmDelete() {
         <input disabled class="modal-row-input" v-model="editingTask.date">
       </div>
       <v-select :searchable="false" :options="['TASK']" v-model="editingTask.type" disabled></v-select>
+      <textarea class="memo" v-model="editingTask.memo"></textarea>
       <div class="buttons-wrapper">
         <button class="delete-button" @click="confirmDelete()">削除</button>
         <button class="cancel-button" @click="$emit('close')">キャンセル</button>
@@ -54,7 +55,7 @@ function confirmDelete() {
 .whole {
   position: fixed;
   width: 100%;
-  top: 40vh;
+  top: 30vh;
   max-width: 36rem;
 }
 
@@ -70,7 +71,7 @@ function confirmDelete() {
 .modal-container {
   position: relative;
   width: 100%;
-  height: 12rem;
+  height: 20rem;
   background-color: white;
   border-color: black;
   border-width: 4px;
@@ -91,6 +92,13 @@ function confirmDelete() {
   outline: none;
   flex-grow: 1;
   min-width: 80%;
+}
+
+.memo {
+  width: calc(100% - 1rem);
+  height: 9rem;
+  margin: 0.5rem;
+  resize: none;
 }
 
 .buttons-wrapper {
