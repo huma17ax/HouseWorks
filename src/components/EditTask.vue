@@ -10,6 +10,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   close: [],
   update: [task: Task]
+  delete: []
 }>()
 
 const editingTask: Ref<Task> = ref({ title: "", date: new Date(), type: "", id: undefined })
@@ -17,6 +18,13 @@ const editingTask: Ref<Task> = ref({ title: "", date: new Date(), type: "", id: 
 onMounted(() => {
   editingTask.value = props.init
 })
+
+function confirmDelete() {
+  if (confirm("削除しますか？")) {
+    emit('delete')
+    emit('close')
+  }
+}
 
 </script>
 
@@ -34,6 +42,7 @@ onMounted(() => {
       </div>
       <v-select :searchable="false" :options="['TASK']" v-model="editingTask.type" disabled></v-select>
       <div class="buttons-wrapper">
+        <button class="delete-button" @click="confirmDelete()">削除</button>
         <button class="cancel-button" @click="$emit('close')">キャンセル</button>
         <button class="save-button" @click="$emit('update', editingTask), $emit('close')">保存</button>
       </div>
@@ -86,10 +95,21 @@ onMounted(() => {
 
 .buttons-wrapper {
   position: absolute;
+  display: flex;
   width: 100%;
   text-align: end;
   bottom: 0;
   padding: 0.5rem;
+}
+
+.delete-button {
+  border: 2px solid black;
+  border-radius: 0.375rem;
+  height: 2rem;
+  width: 6rem;
+  background-color: red;
+  color: white;
+  cursor: pointer;
 }
 
 .cancel-button {
@@ -97,7 +117,7 @@ onMounted(() => {
   border-radius: 0.375rem;
   height: 2rem;
   width: 6rem;
-  margin-right: 0.5rem;
+  margin-left: auto;
   cursor: pointer;
 }
 
@@ -107,6 +127,7 @@ onMounted(() => {
   border-radius: 0.375rem;
   height: 2rem;
   width: 6rem;
+  margin-left: 0.5rem;
   cursor: pointer;
 }
 </style>
