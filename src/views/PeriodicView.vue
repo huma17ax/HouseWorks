@@ -15,7 +15,7 @@ const dows: Dow[] = [
 ]
 
 const openEditWindow: Ref<boolean> = ref(false)
-const periodic4edit: Ref<Periodic> = ref({ title: "", dow: 'Sunday', type: "", memo: "", id: undefined })
+const periodic4edit: Ref<Periodic> = ref({ title: "", dow: 'Sunday', type: "TASK", memo: "", id: undefined })
 
 const periodicManager = usePeriodicManager()
 
