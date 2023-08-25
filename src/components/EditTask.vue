@@ -42,7 +42,7 @@ function confirmDelete() {
         <input disabled class="modal-row-input" v-if="(editingItem as Periodic).dow"
           v-model="(editingItem as Periodic).dow">
       </div>
-      <v-select :searchable="false" :options="['TASK']" v-model="editingItem.type" disabled></v-select>
+      <v-select :searchable="false" :options="['TASK', 'EVENT']" v-model="editingItem.type"></v-select>
       <textarea class="memo" v-model="editingItem.memo"></textarea>
       <div class="buttons-wrapper">
         <button class="delete-button" @click="confirmDelete()">削除</button>
