@@ -71,8 +71,12 @@ function onEndDrag(dow_to: Dow, action: any) {
         {{ dow }}
         <span class="menu-button" @click="openNewMenu(dow)"></span>
       </span>
-      <draggable :modelValue="periodicManager.periodics.filter((per) => per.dow == dow)" item-key="id" group="tasks"
-        :move="() => { return true }" @change="onEndDrag(dow, $event)" handle='.handle'>
+      <div v-for="(elem, idx) in periodicManager.periodics.filter((per) => per.dow == dow && per.type == 'EVENT')"
+        :key="idx">
+        <TaskItem :task="elem" @click-menu="openMenu(elem)"></TaskItem>
+      </div>
+      <draggable :modelValue="periodicManager.periodics.filter((per) => per.dow == dow && per.type == 'TASK')"
+        item-key="id" group="tasks" :move="() => { return true }" @change="onEndDrag(dow, $event)" handle='.handle'>
         <template #item="{ element }">
           <div :class="{ 'handle': element.type == 'TASK' }">
             <TaskItem :task="element" @click-menu="openMenu(element)"></TaskItem>
