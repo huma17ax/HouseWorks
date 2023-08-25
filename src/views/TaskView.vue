@@ -8,7 +8,7 @@ import TaskItem from '@/components/TaskItem.vue'
 import EditTask from '@/components/EditTask.vue'
 
 import { useTaskManager } from '@/stores/taskManager'
-import type { Task } from '@/types'
+import type { ApparentItem, Task } from '@/types'
 
 const days: Ref<Date[]> = ref([])
 const openEditWindow: Ref<boolean> = ref(false)
@@ -49,8 +49,8 @@ function closeMenu() {
   openEditWindow.value = false
 }
 
-function updateTask(task: Task) {
-  taskManager.saveTask(task)
+function updateTask(task: ApparentItem) {
+  taskManager.saveTask(task as Task)
 }
 
 function deleteTask() {
