@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 import draggable from 'vuedraggable'
@@ -82,8 +82,14 @@ function onEndDrag(date_to: Date, action: any) {
         {{ day.toLocaleDateString() }}
         <span class="menu-button" @click="openNewMenu(day)"></span>
       </span>
-      <draggable :modelValue="taskManager.tasks.filter((task) => task.date.getTime() == day.getTime())" item-key="id"
-        group="tasks" :move="() => { return true }" @change="onEndDrag(day, $event)" handle='.handle'>
+      <div
+        v-for="(elem, idx) in taskManager.tasks.filter((task) => task.date.getTime() == day.getTime() && task.type == 'EVENT')"
+        :key="idx">
+        <TaskItem :task="elem" @click-menu="openMenu(elem)"></TaskItem>
+      </div>
+      <draggable
+        :modelValue="taskManager.tasks.filter((task) => task.date.getTime() == day.getTime() && task.type == 'TASK')"
+        item-key="id" group="tasks" :move="() => { return true }" @change="onEndDrag(day, $event)" handle='.handle'>
         <template #item="{ element }">
           <div :class="{ 'handle': element.type == 'TASK' }">
             <TaskItem :task="element" @click-menu="openMenu(element)"></TaskItem>
