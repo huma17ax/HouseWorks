@@ -56,7 +56,7 @@ function onEndDrag(dow_to: Dow, action: any) {
     updateTask(periodic)
   }
   else if ("moved" in action) {
-    const periodic: Periodic = action.added.element
+    const periodic: Periodic = action.moved.element
     periodic.dow = dow_to
     updateTask(periodic)
   }
