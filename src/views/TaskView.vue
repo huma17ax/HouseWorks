@@ -12,7 +12,7 @@ import type { ApparentItem, Task } from '@/types'
 
 const days: Ref<Date[]> = ref([])
 const openEditWindow: Ref<boolean> = ref(false)
-const task4edit: Ref<Task> = ref({ title: "", date: new Date(), type: "", memo: "", id: undefined })
+const task4edit: Ref<Task> = ref({ title: "", date: new Date(), type: "TASK", memo: "", id: undefined })
 
 const taskManager = useTaskManager()
 

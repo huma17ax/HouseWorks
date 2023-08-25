@@ -13,7 +13,7 @@ const emit = defineEmits<{
   delete: []
 }>()
 
-const editingItem: Ref<ApparentItem> = ref({ title: "", date: new Date(), dow: "Sunday", type: "", memo: "", id: undefined })
+const editingItem: Ref<ApparentItem> = ref({ title: "", date: new Date(), dow: "Sunday", type: "TASK", memo: "", id: undefined })
 
 onMounted(() => {
   editingItem.value = props.init

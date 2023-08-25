@@ -1,7 +1,9 @@
+type ItemType = 'TASK' | 'EVENT'
+
 type Task = {
   title: string
   date: Date
-  type: string
+  type: ItemType
   memo: string
   id?: string
 }
@@ -11,7 +13,7 @@ type Dow = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday'
 type Periodic = {
   title: string
   dow: Dow
-  type: string
+  type: ItemType
   memo: string
   id?: string
 }
