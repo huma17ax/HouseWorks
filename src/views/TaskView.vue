@@ -67,7 +67,7 @@ function onEndDrag(date_to: Date, action: any) {
     updateTask(task)
   }
   else if ("moved" in action) {
-    const task: Task = action.added.element
+    const task: Task = action.moved.element
     task.date = date_to
     updateTask(task)
   }
