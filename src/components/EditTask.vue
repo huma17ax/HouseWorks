@@ -16,7 +16,7 @@ const emit = defineEmits<{
 const editingItem: Ref<ApparentItem> = ref({ title: "", date: new Date(), dow: "Sunday", type: "TASK", memo: "", id: undefined })
 
 onMounted(() => {
-  editingItem.value = props.init
+  editingItem.value = Object.assign({}, props.init)
 })
 
 function confirmDelete() {
