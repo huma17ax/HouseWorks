@@ -8,14 +8,14 @@ import TaskItem from '@/components/TaskItem.vue'
 import EditTask from '@/components/EditTask.vue'
 
 import { usePeriodicManager } from '@/stores/periodicManager'
-import type { ApparentItem, Dow, Periodic } from '@/types'
+import { Periodic, type ApparentItem, type Dow } from '@/types'
 
 const dows: Dow[] = [
   'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 ]
 
 const openEditWindow: Ref<boolean> = ref(false)
-const periodic4edit: Ref<Periodic> = ref({ title: "", dow: 'Sunday', type: "TASK", memo: "", id: undefined })
+const periodic4edit: Ref<Periodic> = ref(new Periodic())
 
 const periodicManager = usePeriodicManager()
 

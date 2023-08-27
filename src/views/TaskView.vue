@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 import draggable from 'vuedraggable'
@@ -8,11 +8,11 @@ import TaskItem from '@/components/TaskItem.vue'
 import EditTask from '@/components/EditTask.vue'
 
 import { useTaskManager } from '@/stores/taskManager'
-import type { ApparentItem, Task } from '@/types'
+import { Task, type ApparentItem } from '@/types'
 
 const days: Ref<Date[]> = ref([])
 const openEditWindow: Ref<boolean> = ref(false)
-const task4edit: Ref<Task> = ref({ title: "", date: new Date(), type: "TASK", memo: "", id: undefined })
+const task4edit: Ref<Task> = ref(new Task())
 
 const taskManager = useTaskManager()
 
