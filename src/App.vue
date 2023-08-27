@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import HeaderView from './views/HeaderView.vue'
 </script>
 
 <template>
+  <HeaderView class="header"></HeaderView>
   <RouterView />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.header {
+  height: 3rem;
 }
 
 .logo {
