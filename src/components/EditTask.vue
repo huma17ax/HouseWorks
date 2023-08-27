@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
-import type { Task, Periodic, ApparentItem } from '@/types'
+import { Task, type Periodic, type ApparentItem } from '@/types'
 
 const props = defineProps<{
   init: ApparentItem
@@ -13,7 +13,7 @@ const emit = defineEmits<{
   delete: []
 }>()
 
-const editingItem: Ref<ApparentItem> = ref({ title: "", date: new Date(), dow: "Sunday", type: "TASK", memo: "", id: undefined })
+const editingItem: Ref<ApparentItem> = ref(new Task())
 
 onMounted(() => {
   editingItem.value = Object.assign({}, props.init)
