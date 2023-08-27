@@ -36,13 +36,8 @@ function openMenu(task: Task) {
 }
 
 function openNewMenu(date: Date) {
-  task4edit.value = {
-    title: "",
-    date: date,
-    type: "TASK",
-    memo: "",
-    id: undefined
-  }
+  task4edit.value = new Task()
+  task4edit.value.date = date
   openEditWindow.value = true
 }
 function closeMenu() {

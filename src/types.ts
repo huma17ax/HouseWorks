@@ -6,11 +6,13 @@ class Task {
   type: ItemType
   memo: string
   id?: string
+  refer: string | null
   constructor() {
     this.title = ''
     this.date = new Date()
     this.type = 'TASK'
     this.memo = ''
+    this.refer = null
   }
 }
 

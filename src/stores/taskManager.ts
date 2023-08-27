@@ -25,7 +25,8 @@ export const useTaskManager = defineStore('taskManager', () => {
         date: new Date(doc.data().date),
         type: doc.data().type,
         memo: doc.data().memo,
-        id: doc.id
+        id: doc.id,
+        refer: doc.data().refer
       })
     })
   })
@@ -57,7 +58,7 @@ export const useTaskManager = defineStore('taskManager', () => {
   function deleteTask(task: Task) {
     if (task.id) {
       deleteDoc(doc(database, 'tasks', task.id)).then(() => {
-        const idx = tasks.value.findIndex((elem) => elem.id == task.id)
+        const idx = tasks.value.findIndex((elem) => elem?.id == task.id)
         delete tasks.value[idx]
       })
     }
