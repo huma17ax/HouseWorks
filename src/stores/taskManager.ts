@@ -25,7 +25,8 @@ export const useTaskManager = defineStore('taskManager', () => {
         date: new Date(doc.data().date),
         type: doc.data().type,
         memo: doc.data().memo,
-        id: doc.id
+        id: doc.id,
+        refer: doc.data().refer
       })
     })
   })
@@ -57,11 +58,29 @@ export const useTaskManager = defineStore('taskManager', () => {
   function deleteTask(task: Task) {
     if (task.id) {
       deleteDoc(doc(database, 'tasks', task.id)).then(() => {
-        const idx = tasks.value.findIndex((elem) => elem.id == task.id)
+        const idx = tasks.value.findIndex((elem) => elem?.id == task.id)
         delete tasks.value[idx]
       })
     }
   }
 
-  return { tasks, saveTask, deleteTask }
+  function deleteOldTasks() {
+    const today_datetime = new Date()
+    const today_date = new Date(
+      today_datetime.getFullYear(),
+      today_datetime.getMonth(),
+      today_datetime.getDate()
+    )
+    const lim = new Date(today_date.getTime())
+    lim.setDate(today_date.getDate() - 31)
+
+    const targets = tasks.value.filter((task) => {
+      return task.date.getTime() < lim.getTime()
+    })
+    targets.forEach((task) => {
+      deleteTask(task)
+    })
+  }
+
+  return { tasks, saveTask, deleteTask, deleteOldTasks }
 })
