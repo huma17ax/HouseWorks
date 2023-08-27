@@ -64,5 +64,23 @@ export const useTaskManager = defineStore('taskManager', () => {
     }
   }
 
-  return { tasks, saveTask, deleteTask }
+  function deleteOldTasks() {
+    const today_datetime = new Date()
+    const today_date = new Date(
+      today_datetime.getFullYear(),
+      today_datetime.getMonth(),
+      today_datetime.getDate()
+    )
+    const lim = new Date(today_date.getTime())
+    lim.setDate(today_date.getDate() - 31)
+
+    const targets = tasks.value.filter((task) => {
+      return task.date.getTime() < lim.getTime()
+    })
+    targets.forEach((task) => {
+      deleteTask(task)
+    })
+  }
+
+  return { tasks, saveTask, deleteTask, deleteOldTasks }
 })

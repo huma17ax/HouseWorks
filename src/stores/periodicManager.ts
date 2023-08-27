@@ -12,7 +12,8 @@ import {
   getFirestore,
   collection,
   deleteDoc,
-  getDocs
+  getDocs,
+  getDoc
 } from 'firebase/firestore'
 
 export const usePeriodicManager = defineStore('periodicManager', () => {
@@ -112,5 +113,45 @@ export const usePeriodicManager = defineStore('periodicManager', () => {
     }
   }
 
-  return { periodics, savePeriodic, deletePeriodic }
+  function periodicCreateTasks() {
+    const today_datetime = new Date()
+    const dows = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const today_date = new Date(
+      today_datetime.getFullYear(),
+      today_datetime.getMonth(),
+      today_datetime.getDate()
+    )
+
+    getDoc(doc(database, 'last_login', 'day')).then((snapshot) => {
+      if (snapshot.exists()) {
+        const c1 = new Date(snapshot.data().date)
+        c1.setDate(c1.getDate() + 32)
+        const c2 = new Date(today_date.getTime())
+        c2.setDate(c2.getDate() - 31)
+        const date = c1 < c2 ? c2 : c1
+        const end = new Date(today_date.getTime())
+        end.setDate(end.getDate() + 31)
+
+        while (date <= end) {
+          periodics.value.forEach((per) => {
+            if (dows[date.getDay()] == per.dow) {
+              const task = new Task()
+              task.title = per.title
+              task.date = new Date(date)
+              task.type = per.type
+              task.memo = per.memo
+              task.refer = per.id as string
+              taskManager.saveTask(task)
+            }
+          })
+
+          date.setDate(date.getDate() + 1)
+        }
+
+        setDoc(doc(database, 'last_login', 'day'), { date: today_date.toString() })
+      }
+    })
+  }
+
+  return { periodics, savePeriodic, deletePeriodic, periodicCreateTasks }
 })
