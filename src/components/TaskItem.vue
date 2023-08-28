@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import type { Task } from '@/types'
+import type { ApparentItem } from '@/types'
 
 const props = defineProps<{
-  task: Task
+  task: ApparentItem
 }>()
 
 const emit = defineEmits<{

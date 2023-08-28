@@ -2,21 +2,21 @@
 import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
-import type { Task } from '@/types'
+import { Task, type Periodic, type ApparentItem } from '@/types'
 
 const props = defineProps<{
-  init: Task
+  init: ApparentItem
 }>()
 const emit = defineEmits<{
   close: [],
-  update: [task: Task]
+  update: [item: ApparentItem]
   delete: []
 }>()
 
-const editingTask: Ref<Task> = ref({ title: "", date: new Date(), type: "", memo: "", id: undefined })
+const editingItem: Ref<ApparentItem> = ref(new Task())
 
 onMounted(() => {
-  editingTask.value = props.init
+  editingItem.value = Object.assign({}, props.init)
 })
 
 function confirmDelete() {
@@ -34,18 +34,20 @@ function confirmDelete() {
     <div class="modal-container">
       <div class="modal-row">
         <span class="modal-row-title">タイトル</span>
-        <input class="modal-row-input" v-model="editingTask.title">
+        <input class="modal-row-input" v-model="editingItem.title">
       </div>
       <div class="modal-row">
         <span class="modal-row-title">日付</span>
-        <input disabled class="modal-row-input" v-model="editingTask.date">
+        <input disabled class="modal-row-input" v-if="(editingItem as Task).date" v-model="(editingItem as Task).date">
+        <input disabled class="modal-row-input" v-if="(editingItem as Periodic).dow"
+          v-model="(editingItem as Periodic).dow">
       </div>
-      <v-select :searchable="false" :options="['TASK']" v-model="editingTask.type" disabled></v-select>
-      <textarea class="memo" v-model="editingTask.memo"></textarea>
+      <v-select :searchable="false" :options="['TASK', 'EVENT']" v-model="editingItem.type"></v-select>
+      <textarea class="memo" v-model="editingItem.memo"></textarea>
       <div class="buttons-wrapper">
         <button class="delete-button" @click="confirmDelete()">削除</button>
         <button class="cancel-button" @click="$emit('close')">キャンセル</button>
-        <button class="save-button" @click="$emit('update', editingTask), $emit('close')">保存</button>
+        <button class="save-button" @click="$emit('update', editingItem), $emit('close')">保存</button>
       </div>
     </div>
   </div>

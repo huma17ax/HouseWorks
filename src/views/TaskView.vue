@@ -8,11 +8,11 @@ import TaskItem from '@/components/TaskItem.vue'
 import EditTask from '@/components/EditTask.vue'
 
 import { useTaskManager } from '@/stores/taskManager'
-import type { Task } from '@/types'
+import { Task, type ApparentItem } from '@/types'
 
 const days: Ref<Date[]> = ref([])
 const openEditWindow: Ref<boolean> = ref(false)
-const task4edit: Ref<Task> = ref({ title: "", date: new Date(), type: "", memo: "", id: undefined })
+const task4edit: Ref<Task> = ref(new Task())
 
 const taskManager = useTaskManager()
 
@@ -36,21 +36,16 @@ function openMenu(task: Task) {
 }
 
 function openNewMenu(date: Date) {
-  task4edit.value = {
-    title: "",
-    date: date,
-    type: "TASK",
-    memo: "",
-    id: undefined
-  }
+  task4edit.value = new Task()
+  task4edit.value.date = date
   openEditWindow.value = true
 }
 function closeMenu() {
   openEditWindow.value = false
 }
 
-function updateTask(task: Task) {
-  taskManager.saveTask(task)
+function updateTask(task: ApparentItem) {
+  taskManager.saveTask(task as Task)
 }
 
 function deleteTask() {
@@ -67,7 +62,7 @@ function onEndDrag(date_to: Date, action: any) {
     updateTask(task)
   }
   else if ("moved" in action) {
-    const task: Task = action.added.element
+    const task: Task = action.moved.element
     task.date = date_to
     updateTask(task)
   }
@@ -82,8 +77,14 @@ function onEndDrag(date_to: Date, action: any) {
         {{ day.toLocaleDateString() }}
         <span class="menu-button" @click="openNewMenu(day)"></span>
       </span>
-      <draggable :modelValue="taskManager.tasks.filter((task) => task.date.getTime() == day.getTime())" item-key="id"
-        group="tasks" :move="() => { return true }" @change="onEndDrag(day, $event)" handle='.handle'>
+      <div
+        v-for="(elem, idx) in taskManager.tasks.filter((task) => task.date.getTime() == day.getTime() && task.type == 'EVENT')"
+        :key="idx">
+        <TaskItem :task="elem" @click-menu="openMenu(elem)"></TaskItem>
+      </div>
+      <draggable
+        :modelValue="taskManager.tasks.filter((task) => task.date.getTime() == day.getTime() && task.type == 'TASK')"
+        item-key="id" group="tasks" :move="() => { return true }" @change="onEndDrag(day, $event)" handle='.handle'>
         <template #item="{ element }">
           <div :class="{ 'handle': element.type == 'TASK' }">
             <TaskItem :task="element" @click-menu="openMenu(element)"></TaskItem>
